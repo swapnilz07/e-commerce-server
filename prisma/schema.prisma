@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// USER MODEL (Base for Authentication) 
+
+model user {
+  id         String   @id @default(uuid())
+  firstName       String
+  lastName       String
+  email      String   @unique
+  password   String   
+  role       UserRole @default(CUSTOMER)
+  isActive      Boolean   @default(true)
+  
+// Timestamps 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? // Soft delete
+
+  // Relations (We will add Orders, Products later)
+  // orders      Order[]
+}
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
+  VENDOR
+}

@@ -51,7 +51,7 @@ export class UserService {
     // Validate user credentials (for login)
     async validateUser(email: string, password: string) {
         const user = await this.findByEmail(email);
-        if (!user) {
+        if (!user || !user.password) {
             return null;
         }
 
@@ -64,5 +64,35 @@ export class UserService {
         // Exclude passwordHash from the returned object
         const { password: _, ...userWithoutPassword } = user;
         return userWithoutPassword;
+    }
+
+    async createOAuthUser(data: { googleId: string; email: string; firstName: string; lastName: string }) {
+        // Check if user already exists (paranoid safety)
+        const existing = await this.findByEmail(data.email);
+        if (existing) {
+            throw new ConflictException('User with this email already exists');
+        }
+
+        const user = await this.prisma.user.create({
+            data: {
+                email: data.email,
+                googleId: data.googleId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                password: null as any, // No password for OAuth users
+                role: 'CUSTOMER',
+            } as any,
+        });
+
+        const { password, ...result } = user;
+        return result;
+    }
+
+    // Optionally, to link a Google account to an existing user (advanced)
+    async linkGoogleId(userId: string, googleId: string) {
+        return this.prisma.user.update({
+            where: { id: userId },
+            data: { googleId } as any,
+        });
     }
 }

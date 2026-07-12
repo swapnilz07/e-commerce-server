@@ -9,14 +9,15 @@ datasource db {
 // USER MODEL 
 model user {
   id         String   @id @default(uuid())
-  firstName       String
-  lastName       String
   email      String   @unique
-  password   String   
+  password   String?  
+  googleId   String?  @unique 
+  firstName  String
+  lastName   String
   role       UserRole @default(CUSTOMER)
-  isActive      Boolean   @default(true)
+  isActive   Boolean  @default(true)
   
-// Timestamps 
+  // Timestamps 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? // Soft delete

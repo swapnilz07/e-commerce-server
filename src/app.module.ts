@@ -4,13 +4,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthModule } from './modules/health/health.module';
 import { CommonModule } from './common/common.module';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './common/config/configuration';
 import { validationSchema } from './common/config/validation.schema';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bullmq';
 import { PrismaModule } from './database/prisma/prisma.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -51,7 +52,7 @@ import { PrismaModule } from './database/prisma/prisma.module';
       }),
     }),
 
-    HealthModule, CommonModule, AuthModule, PrismaModule,
+    HealthModule, CommonModule, PrismaModule, AuthModule, UserModule,
   ],
 
   controllers: [AppController],

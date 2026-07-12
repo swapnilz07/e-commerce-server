@@ -6,8 +6,7 @@ datasource db {
   provider = "postgresql"
 }
 
-// USER MODEL (Base for Authentication) 
-
+// USER MODEL 
 model user {
   id         String   @id @default(uuid())
   firstName       String
@@ -22,8 +21,7 @@ model user {
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? // Soft delete
 
-  // Relations (We will add Orders, Products later)
-  // orders      Order[]
+  //TODO: Relations (I will add Orders, Products later)
 }
 
 enum UserRole {

@@ -1,5 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { user } from '@prisma/client';
+import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 
@@ -8,7 +8,7 @@ export class UserService {
     constructor(private readonly prisma: PrismaService) { }
 
     // Find user by email (for login validation)
-    async findByEmail(email: string): Promise<user | null> {
+    async findByEmail(email: string): Promise<User | null> {
         return this.prisma.user.findUnique({ where: { email } })
     }
 

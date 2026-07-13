@@ -12,6 +12,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { PrismaModule } from './database/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
@@ -52,7 +53,7 @@ import { UserModule } from './modules/user/user.module';
       }),
     }),
 
-    HealthModule, CommonModule, PrismaModule, AuthModule, UserModule,
+    HealthModule, CommonModule, PrismaModule, AuthModule, UserModule, ProductModule,
   ],
 
   controllers: [AppController],

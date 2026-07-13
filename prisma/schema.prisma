@@ -7,7 +7,7 @@ datasource db {
 }
 
 // USER MODEL 
-model user {
+model User {
   id         String   @id @default(uuid())
   email      String   @unique
   password   String?  
@@ -16,17 +16,55 @@ model user {
   lastName   String
   role       UserRole @default(CUSTOMER)
   isActive   Boolean  @default(true)
-  
+
   // Timestamps 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? // Soft delete
 
-  //TODO: Relations (I will add Orders, Products later)
+  // Relation: Products this user created (if they are a VENDOR or ADMIN)
+  products      Product[]
 }
 
 enum UserRole {
   ADMIN
   CUSTOMER
   VENDOR
+}
+
+model Category {
+  id            String    @id @default(uuid())
+  name          String    @unique
+  slug          String    @unique  // For SEO-friendly URLs (e.g., "electronics")
+  description   String?   // Optional metadata
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  // Relation
+  products      Product[]
+}
+
+model Product {
+  id            String    @id @default(uuid())
+  name          String
+  description   String
+  price         Float     @default(0)
+  stock         Int       @default(0)
+  images        String[]  // Store image URLs
+
+  // Foreign key to Category
+  categoryId    String
+  category      Category  @relation(fields: [categoryId], references: [id])
+
+  // Foreign key to User (vendor)
+  vendorId      String
+  vendor        User      @relation(fields: [vendorId], references: [id])
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  @@index([vendorId])
+  @@index([categoryId])
 }

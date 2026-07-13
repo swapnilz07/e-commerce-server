@@ -13,6 +13,7 @@ import { PrismaModule } from './database/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { ProductModule } from './modules/product/product.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -53,7 +54,7 @@ import { ProductModule } from './modules/product/product.module';
       }),
     }),
 
-    HealthModule, CommonModule, PrismaModule, AuthModule, UserModule, ProductModule,
+    HealthModule, CommonModule, PrismaModule, AuthModule, UserModule, ProductModule, CategoryModule,
   ],
 
   controllers: [AppController],
